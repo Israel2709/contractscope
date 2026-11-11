@@ -1,0 +1,221 @@
+openapi: 3.0.3
+info:
+  title: User Management API
+  version: 2.0.0
+  description: Evolved user management contract with intentional compatibility changes.
+servers:
+  - url: https://api.example.com/v2
+paths:
+  /users:
+    get:
+      operationId: listUsers
+      summary: List users
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        # BREAKING: optional status query param becomes required
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [active, inactive, pending]
+        # NON-BREAKING: new optional query parameter
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: A paginated list of users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+    post:
+      operationId: createUser
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getUser
+      summary: Get a user by id
+      responses:
+        "200":
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateUser
+      summary: Replace a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        "200":
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    # BREAKING: DELETE operation removed from /users/{id}
+  # BREAKING: /users/{id}/roles endpoint removed
+  # NON-BREAKING: new endpoint
+  /users/{id}/preferences:
+    get:
+      operationId: getUserPreferences
+      summary: Get user preferences
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Preferences
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [theme]
+                properties:
+                  theme:
+                    type: string
+                  locale:
+                    type: string
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Service health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+components:
+  schemas:
+    User:
+      type: object
+      # BREAKING: removed documented response property "name"
+      # NON-BREAKING: added optional response property "displayName"
+      # BREAKING: status type changed conceptually via enum expansion is non-schema-type;
+      #            email remains string. createdAt type changed string → integer (breaking)
+      required: [id, email]
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, pending]
+        createdAt:
+          type: integer
+          description: Unix epoch milliseconds
+        # WARNING-prone construct for demos when used: allOf not present here
+    UserList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total:
+          type: integer
+        # NON-BREAKING: new optional response property
+        nextPage:
+          type: integer
+    CreateUserRequest:
+      type: object
+      # BREAKING: new required request property "role"
+      required: [email, name, role]
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, pending]
+    UpdateUserRequest:
+      type: object
+      required: [email, name]
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, pending]
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        # NON-BREAKING optional response property
+        details:
+          type: string

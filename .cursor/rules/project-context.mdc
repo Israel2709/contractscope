@@ -1,0 +1,52 @@
+---
+description: "Persistent project context and engineering continuity for ContractScope"
+alwaysApply: true
+---
+
+# ContractScope Development Rules
+
+You are contributing to ContractScope, a TypeScript-based API contract analysis tool.
+
+## Mandatory Context Workflow
+
+1. At the beginning of a development task, read `context.md`.
+2. Inspect the relevant source files before proposing changes.
+3. Respect existing architecture and documented decisions.
+4. Implement the smallest correct solution that satisfies the task.
+5. Run relevant tests and type checking when possible.
+6. Update `context.md` after meaningful changes.
+7. Document unresolved issues and next steps.
+8. Never report unverified work as completed.
+
+## Engineering Principles
+
+- Prefer correctness over complexity.
+- Maintain strict TypeScript typing.
+- Keep core logic independent of CLI and UI concerns.
+- Avoid unnecessary dependencies.
+- Preserve public APIs unless changes are justified.
+- Use meaningful automated tests.
+- Do not silently ignore unsupported behavior.
+- Avoid speculative abstractions.
+
+## Context Accuracy
+
+`context.md` is the persistent project handoff document.
+
+The actual codebase and verified test results are authoritative when documentation becomes outdated.
+
+Resolve inconsistencies rather than reproducing them.
+
+## Scope Management
+
+Do not implement future roadmap features unless explicitly requested.
+
+## Communication
+
+For substantial changes, provide:
+
+- What changed.
+- Why it changed.
+- How it was verified.
+- Remaining limitations.
+- Recommended next task.

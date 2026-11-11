@@ -1,0 +1,33 @@
+{
+  "name": "@contractscope/cli",
+  "version": "0.1.0",
+  "description": "CLI for ContractScope OpenAPI compatibility analysis",
+  "type": "module",
+  "bin": {
+    "contractscope": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "contractscope": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "@contractscope/core": "workspace:*",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
