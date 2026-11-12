@@ -12,6 +12,8 @@
 - **Core purpose:** Compare two OpenAPI documents, classify compatibility impact, and report results via CLI (terminal + JSON).
 - **Problems solved:** Accidental API regressions, unclear contract diffs, missing automated compatibility checks in CI/local workflows.
 - **Audience:** Backend/frontend engineers, API authors, platform teams integrating contract checks into pipelines.
+- **License:** MIT License (`LICENSE`)
+- **Copyright:** Copyright (c) 2026 Israel Salinas Martínez
 
 ---
 
@@ -89,6 +91,7 @@ contractscope/
 ├── docs/architecture.md
 ├── context.md
 ├── README.md
+├── LICENSE
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
@@ -126,13 +129,14 @@ Request compatibility (client → server) is treated separately from response co
 - [x] Fixtures demonstrating breaking and non-breaking changes
 - [x] Automated tests (23 passing: 17 core + 6 CLI)
 - [x] README + architecture docs
+- [x] MIT License (`LICENSE`) with copyright holder documented
 
 ---
 
 ## Current Development Status
 
 - **Phase:** Phase 5 — Quality and Readiness (MVP complete)
-- **Last completed milestone:** Full MVP verified (install, build, test, lint, typecheck, CLI)
+- **Last completed milestone:** Official MIT licensing (LICENSE + README + context)
 - **Current active task:** none
 - **Blockers:** none
 - **Verification results (2026-03-24):**
@@ -143,6 +147,10 @@ Request compatibility (client → server) is treated separately from response co
   - `pnpm typecheck` — success
   - CLI terminal analysis of fixtures — success (19 changes: 10 breaking, 9 non-breaking)
   - CLI `--fail-on-breaking` — exit code `1` as expected
+- **Verification results (2026-11-12):**
+  - `LICENSE` present with complete MIT License text
+  - Copyright line: `Copyright (c) 2026 Israel Salinas Martínez`
+  - README License section links to `LICENSE`
 - **Next recommended task:** Expand schema compatibility for `allOf`/`oneOf`/`anyOf` with explicit warning/classification rules (still within contract-analysis scope; not frontend AST)
 
 ---
@@ -275,8 +283,8 @@ pnpm --filter @contractscope/cli exec contractscope analyze \
 
 ## Session Handoff
 
-- **Work completed:** Full MVP foundation — context system, core parser/normalizer/diff/classifier/reporter, CLI, fixtures, docs, and verification.
-- **Files changed:** Entire `contractscope/` project tree (see Repository Structure).
-- **Tests executed:** `pnpm test` → 23/23 passed; `pnpm build`, `pnpm lint`, `pnpm typecheck` → success; CLI fixture analysis → 10 breaking / 9 non-breaking; `--fail-on-breaking` → exit 1.
+- **Work completed:** Official MIT licensing — added root `LICENSE`, linked from README, documented copyright in `context.md`.
+- **Files changed:** `LICENSE` (new), `README.md`, `context.md`.
+- **Tests executed:** N/A (documentation/licensing only); LICENSE text and README relative link verified by inspection.
 - **Unresolved problems:** none blocking
 - **Recommended next action:** Implement deeper OpenAPI schema composition compatibility (`allOf`/`oneOf`/`anyOf`) with tests, or wait for an explicit product priority.

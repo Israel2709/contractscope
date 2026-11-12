@@ -139,4 +139,4 @@ context.md      Persistent AI/human development handoff
 
 ## License
 
-MIT (planned for open-source release; confirm before publishing).
+ContractScope is licensed under the [MIT License](LICENSE).
